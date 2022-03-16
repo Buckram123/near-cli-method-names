@@ -1,9 +1,9 @@
-use crate::common::*;
+use crate::common::{EnumDiscriminants, EnumMessage, EnumIter, CliResult};
 mod block_id;
 mod contract_id;
 
 /// Select server
-#[derive(Debug, Clone, EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
+#[derive(Debug, Clone, EnumDiscriminants, interactive_clap::InteractiveClap)]
 #[strum_discriminants(derive(EnumMessage, EnumIter))]
 #[interactive_clap(context = ())]
 pub enum SelectServer {

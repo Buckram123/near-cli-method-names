@@ -1,4 +1,4 @@
-use crate::common::*;
+use crate::common::{EnumDiscriminants, EnumMessage, EnumIter, CliResult};
 
 mod block_hash;
 mod block_height;
@@ -10,7 +10,7 @@ pub struct BlockIdSelector {
     pub block_id: BlockId,
 }
 
-#[derive(Debug, Clone, EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
+#[derive(Debug, Clone, EnumDiscriminants, interactive_clap::InteractiveClap)]
 #[strum_discriminants(derive(EnumMessage, EnumIter))]
 #[interactive_clap(context = ())]
 pub enum BlockId {

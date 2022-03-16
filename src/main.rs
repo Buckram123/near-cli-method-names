@@ -3,7 +3,7 @@ mod common;
 mod consts;
 mod types;
 
-use common::*;
+use common::{EnumDiscriminants, EnumMessage, EnumIter, CliResult};
 
 #[derive(Debug, Clone, interactive_clap::InteractiveClap)]
 #[interactive_clap(context = ())]
@@ -12,7 +12,7 @@ struct Args {
     command: Commands,
 }
 
-#[derive(Debug, Clone, EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
+#[derive(Debug, Clone, EnumDiscriminants, interactive_clap::InteractiveClap)]
 #[strum_discriminants(derive(EnumMessage, EnumIter))]
 #[interactive_clap(context = ())]
 pub enum Commands {
