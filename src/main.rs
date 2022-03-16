@@ -1,9 +1,9 @@
-use common::CliResult;
-
 mod commands;
 mod common;
 mod consts;
 mod types;
+
+use common::*;
 
 #[derive(Debug, Clone, interactive_clap::InteractiveClap)]
 #[interactive_clap(context = ())]
@@ -12,9 +12,10 @@ struct Args {
     command: Commands,
 }
 
-#[derive(Debug, Clone, strum::EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
-#[strum_discriminants(derive(strum::EnumMessage, strum::EnumIter))]
-enum Commands {
+#[derive(Debug, Clone, EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
+#[strum_discriminants(derive(EnumMessage, EnumIter))]
+#[interactive_clap(context = ())]
+pub enum Commands {
     /// Online
     Online(commands::Online),
     /// Wasm file of contract

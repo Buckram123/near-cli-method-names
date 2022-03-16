@@ -1,3 +1,5 @@
+use crate::common::*;
+
 mod block_hash;
 mod block_height;
 
@@ -8,8 +10,9 @@ pub struct BlockIdSelector {
     pub block_id: BlockId,
 }
 
-#[derive(Debug, Clone, strum::EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
-#[strum_discriminants(derive(strum::EnumMessage, strum::EnumIter))]
+#[derive(Debug, Clone, EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
+#[strum_discriminants(derive(EnumMessage, EnumIter))]
+#[interactive_clap(context = ())]
 pub enum BlockId {
     Final(super::contract_id::CliAccountId),
     Height(block_height::BlockIdHeight),

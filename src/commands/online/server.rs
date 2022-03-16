@@ -1,9 +1,11 @@
+use crate::common::*;
 mod block_id;
 mod contract_id;
 
 /// Select server
-#[derive(Debug, Clone, strum::EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
-#[strum_discriminants(derive(strum::EnumMessage, strum::EnumIter))]
+#[derive(Debug, Clone, EnumDiscriminants, interactive_clap_derive::InteractiveClap)]
+#[strum_discriminants(derive(EnumMessage, EnumIter))]
+#[interactive_clap(context = ())]
 pub enum SelectServer {
     /// https://rpc.testnet.near.org
     Testnet(block_id::BlockIdSelector),
