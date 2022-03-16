@@ -1,0 +1,26 @@
+[package]
+name = "near-cli-method-names"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = "=3.0.0-beta.2"
+clap_derive = "=3.0.0-beta.2"
+clap_generate = "=3.0.0-beta.2"
+
+color-eyre = "0.5"
+dialoguer = "0.9"
+strum = { git = "https://github.com/frol/strum", branch = "feat/discriminants-pass-through-attributes", features = ["derive"] }
+strum_macros = "0.20"
+actix = "0.12"
+
+interactive_clap = { git = "https://github.com/FroVolod/interactive-clap", rev="defa1acf740d0365c604c1cbfdb98603843cbf65" }
+interactive_clap_derive = { git = "https://github.com/FroVolod/interactive-clap", rev="defa1acf740d0365c604c1cbfdb98603843cbf65" }
+wasmer = "2.2.0"
+url = "2.2.2"
+tokio = { version = "1.17.0", features = ["full"] }
+
+near-crypto = "0.11"
+near-primitives = "0.11"
+near-jsonrpc-client = "0.2"
+near-jsonrpc-primitives = "0.11"
