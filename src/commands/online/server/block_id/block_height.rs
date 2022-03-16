@@ -5,7 +5,10 @@ pub struct BlockIdHeight {
 }
 
 impl BlockIdHeight {
-    pub async fn process(self, client: near_jsonrpc_client::JsonRpcClient<near_jsonrpc_client::auth::Unauthenticated>) {
+    pub async fn process(
+        self,
+        client: near_jsonrpc_client::JsonRpcClient<near_jsonrpc_client::auth::Unauthenticated>,
+    ) {
         crate::common::online_result(
             client,
             near_primitives::types::BlockReference::BlockId(

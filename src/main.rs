@@ -3,7 +3,7 @@ mod common;
 mod consts;
 mod types;
 
-use common::{EnumDiscriminants, EnumMessage, EnumIter, CliResult};
+use common::{CliResult, EnumDiscriminants, EnumIter, EnumMessage};
 
 #[derive(Debug, Clone, interactive_clap::InteractiveClap)]
 #[interactive_clap(context = ())]

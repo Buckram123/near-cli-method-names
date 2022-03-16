@@ -1,4 +1,4 @@
-use crate::common::{EnumDiscriminants, EnumMessage, EnumIter, CliResult};
+use crate::common::{CliResult, EnumDiscriminants, EnumIter, EnumMessage};
 mod block_id;
 mod contract_id;
 

@@ -1,4 +1,4 @@
-use crate::common::{EnumDiscriminants, EnumMessage, EnumIter, CliResult};
+use crate::common::{CliResult, EnumDiscriminants, EnumIter, EnumMessage};
 
 mod block_hash;
 mod block_height;
@@ -20,7 +20,10 @@ pub enum BlockId {
 }
 
 impl BlockId {
-    pub async fn process(self, client: near_jsonrpc_client::JsonRpcClient<near_jsonrpc_client::auth::Unauthenticated>) {
+    pub async fn process(
+        self,
+        client: near_jsonrpc_client::JsonRpcClient<near_jsonrpc_client::auth::Unauthenticated>,
+    ) {
         match self {
             BlockId::Final(acc) => {
                 acc.process(

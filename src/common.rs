@@ -1,4 +1,4 @@
-pub use strum::{EnumDiscriminants, EnumMessage, EnumIter};
+pub use strum::{EnumDiscriminants, EnumIter, EnumMessage};
 pub type CliResult = color_eyre::eyre::Result<()>;
 
 pub async fn online_result(
