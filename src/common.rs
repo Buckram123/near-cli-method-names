@@ -2,10 +2,11 @@ pub use strum::{EnumDiscriminants, EnumIter, EnumMessage};
 pub type CliResult = color_eyre::eyre::Result<()>;
 
 pub async fn online_result(
-    client: near_jsonrpc_client::JsonRpcClient<near_jsonrpc_client::auth::Unauthenticated>,
+    connection_config: crate::common::ConnectionConfig,
     block_reference: near_primitives::types::BlockReference,
     contract_id: near_primitives::types::AccountId,
 ) {
+    let client = near_jsonrpc_client::JsonRpcClient::connect(connection_config.rpc_url().as_str());
     let request = near_jsonrpc_client::methods::query::RpcQueryRequest {
         block_reference,
         request: near_primitives::views::QueryRequest::ViewCode {
@@ -67,9 +68,10 @@ pub fn get_account_state(
     }
 }
 
-
 impl ConnectionConfig {
-    pub fn from_custom_url(custom_url: &crate::types::available_rpc_server_url::AvailableRpcServerUrl) -> Self {
+    pub fn from_custom_url(
+        custom_url: &crate::types::available_rpc_server_url::AvailableRpcServerUrl,
+    ) -> Self {
         Self::Custom {
             url: custom_url.inner.clone(),
         }

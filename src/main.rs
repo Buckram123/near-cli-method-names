@@ -37,8 +37,6 @@ fn main() -> CliResult {
     let cli = Args::parse();
     let args = Args::from_cli(Some(cli), ())?;
 
-    // You can check for the existence of subcommands, and if found use their
-    // matches just as you would the top level cmd
     let process_result = actix::System::new().block_on(args.command.process());
     Ok(process_result)
 }

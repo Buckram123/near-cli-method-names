@@ -40,11 +40,11 @@ impl SelectServerContext {
 }
 
 #[derive(Clone)]
-pub struct ViewContractCodeCommandNetworkContext {
+pub struct ViewContractMethodsCommandNetworkContext {
     pub connection_config: crate::common::ConnectionConfig,
 }
 
-impl From<SelectServerContext> for ViewContractCodeCommandNetworkContext {
+impl From<SelectServerContext> for ViewContractMethodsCommandNetworkContext {
     fn from(item: SelectServerContext) -> Self {
         let connection_config = match item.selected_server {
             SelectServerDiscriminants::Testnet => crate::common::ConnectionConfig::Testnet,
@@ -59,29 +59,68 @@ impl From<SelectServerContext> for ViewContractCodeCommandNetworkContext {
 }
 
 #[derive(Debug, Clone, interactive_clap::InteractiveClap)]
-#[interactive_clap(context = SelectServerContext)]
+#[interactive_clap(input_context = SelectServerContext)]
+#[interactive_clap(output_context = ViewContractMethodsCommandNetworkContext)]
 pub struct CustomServer {
-    url: crate::types::available_rpc_server_url::AvailableRpcServerUrl,
+    #[interactive_clap(long)]
+    /// What is the RPC endpoint?
+    pub url: crate::types::available_rpc_server_url::AvailableRpcServerUrl,
     #[interactive_clap(subcommand)]
     pub block_id: block_id::BlockId,
 }
 
-impl SelectServer {
-    pub async fn process(self) {
-        let client = near_jsonrpc_client::JsonRpcClient::connect(self.rpc_url().as_str());
-        match self {
-            SelectServer::Testnet(block)
-            | SelectServer::Mainnet(block)
-            | SelectServer::Betanet(block) => block.block_id.process(client).await,
-            SelectServer::Custom(custom) => custom.block_id.process(client).await,
+struct CustomServerContext {
+    pub url: crate::types::available_rpc_server_url::AvailableRpcServerUrl,
+}
+
+impl CustomServerContext {
+    fn from_previous_context(
+        _previous_context: SelectServerContext,
+        scope: &<CustomServer as interactive_clap::ToInteractiveClapContextScope>::InteractiveClapContextScope,
+    ) -> Self {
+        Self {
+            url: scope.url.clone(),
         }
     }
-    pub fn rpc_url(&self) -> url::Url {
+}
+
+impl From<CustomServerContext> for ViewContractMethodsCommandNetworkContext {
+    fn from(item: CustomServerContext) -> Self {
+        Self {
+            connection_config: crate::common::ConnectionConfig::from_custom_url(&item.url),
+        }
+    }
+}
+
+impl SelectServer {
+    pub async fn process(self) {
         match self {
-            Self::Testnet(_) => crate::consts::TESTNET_API_SERVER_URL.parse().unwrap(),
-            Self::Mainnet(_) => crate::consts::MAINNET_API_SERVER_URL.parse().unwrap(),
-            Self::Betanet(_) => crate::consts::BETANET_API_SERVER_URL.parse().unwrap(),
-            Self::Custom(server) => server.url.inner.clone(),
+            SelectServer::Testnet(block) => {
+                block
+                    .block_id
+                    .process(crate::common::ConnectionConfig::Testnet)
+                    .await
+            }
+            SelectServer::Mainnet(block) => {
+                block
+                    .block_id
+                    .process(crate::common::ConnectionConfig::Mainnet)
+                    .await
+            }
+            SelectServer::Betanet(block) => {
+                block
+                    .block_id
+                    .process(crate::common::ConnectionConfig::Betanet)
+                    .await
+            }
+            SelectServer::Custom(custom) => {
+                custom
+                    .block_id
+                    .process(crate::common::ConnectionConfig::Custom {
+                        url: custom.url.inner,
+                    })
+                    .await
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ impl std::str::FromStr for AvailableRpcServerUrl {
             url::Url::parse(s).map_err(|err| format!("URL is not parsed: {}", err))?;
         actix::System::new()
             .block_on(async {
-                near_jsonrpc_client::JsonRpcClient::connect(&url.as_str())
+                near_jsonrpc_client::JsonRpcClient::connect(url.as_str())
                     .call(near_jsonrpc_client::methods::status::RpcStatusRequest)
                     .await
             })

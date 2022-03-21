@@ -4,7 +4,7 @@ mod block_hash;
 mod block_height;
 
 #[derive(Debug, Clone, interactive_clap::InteractiveClap)]
-#[interactive_clap(context = super::SelectServerContext)]
+#[interactive_clap(context = super::ViewContractMethodsCommandNetworkContext)]
 pub struct BlockIdSelector {
     #[interactive_clap(subcommand)]
     pub block_id: BlockId,
@@ -12,7 +12,7 @@ pub struct BlockIdSelector {
 
 #[derive(Debug, Clone, EnumDiscriminants, interactive_clap::InteractiveClap)]
 #[strum_discriminants(derive(EnumMessage, EnumIter))]
-#[interactive_clap(context = super::SelectServerContext)]
+#[interactive_clap(context = super::ViewContractMethodsCommandNetworkContext)]
 pub enum BlockId {
     #[strum_discriminants(strum(message = "View this contract at final block"))]
     /// Specify a block ID final to view this contract
@@ -26,20 +26,17 @@ pub enum BlockId {
 }
 
 impl BlockId {
-    pub async fn process(
-        self,
-        client: near_jsonrpc_client::JsonRpcClient<near_jsonrpc_client::auth::Unauthenticated>,
-    ) {
+    pub async fn process(self, connection_config: crate::common::ConnectionConfig) {
         match self {
             BlockId::Final(acc) => {
                 acc.process(
-                    client,
+                    connection_config,
                     near_primitives::types::BlockReference::Finality(Default::default()),
                 )
                 .await
             }
-            BlockId::Height(height) => height.process(client).await,
-            BlockId::Hash(hash) => hash.process(client).await,
+            BlockId::Height(height) => height.process(connection_config).await,
+            BlockId::Hash(hash) => hash.process(connection_config).await,
         }
     }
 }
