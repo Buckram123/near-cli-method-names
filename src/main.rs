@@ -15,9 +15,12 @@ struct Args {
 #[derive(Debug, Clone, EnumDiscriminants, interactive_clap::InteractiveClap)]
 #[strum_discriminants(derive(EnumMessage, EnumIter))]
 #[interactive_clap(context = ())]
+/// Choose from where you want to check functions of contract
 pub enum Commands {
-    /// Online
+    #[strum_discriminants(strum(message = "From blockchain"))]
+    /// Blockchain
     Online(commands::Online),
+    #[strum_discriminants(strum(message = "From wasm file"))]
     /// Wasm file of contract
     Wasm(commands::Wasm),
 }
