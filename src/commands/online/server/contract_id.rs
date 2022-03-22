@@ -28,13 +28,16 @@ impl CliAccountId {
         }
     }
 
-    pub async fn process(
+    pub fn process(
         self,
         connection_config: crate::common::ConnectionConfig,
         block_reference: near_primitives::types::BlockReference,
     ) {
-        crate::common::online_result(connection_config, block_reference, self.contract_id.into())
-            .await
+        actix::System::new().block_on(crate::common::online_result(
+            connection_config,
+            block_reference,
+            self.contract_id.into(),
+        ));
     }
 
     pub fn input_contract_account_id(

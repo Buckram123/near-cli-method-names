@@ -26,9 +26,9 @@ pub enum Commands {
 }
 
 impl Commands {
-    async fn process(self) {
+    fn process(self) {
         match self {
-            Commands::Online(val) => val.process().await,
+            Commands::Online(val) => val.process(),
             Commands::Wasm(val) => val.process(),
         }
     }
@@ -37,6 +37,6 @@ fn main() -> CliResult {
     let cli = Args::parse();
     let args = Args::from_cli(Some(cli), ())?;
 
-    let process_result = actix::System::new().block_on(args.command.process());
+    let process_result = args.command.process();
     Ok(process_result)
 }

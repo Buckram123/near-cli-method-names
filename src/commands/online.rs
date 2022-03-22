@@ -8,7 +8,7 @@ pub struct Online {
 }
 
 impl Online {
-    pub async fn process(self) {
-        self.server.process().await;
+    pub fn process(self) {
+        self.server.process();
     }
 }

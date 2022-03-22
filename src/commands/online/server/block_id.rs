@@ -26,17 +26,14 @@ pub enum BlockId {
 }
 
 impl BlockId {
-    pub async fn process(self, connection_config: crate::common::ConnectionConfig) {
+    pub fn process(self, connection_config: crate::common::ConnectionConfig) {
         match self {
-            BlockId::Final(acc) => {
-                acc.process(
-                    connection_config,
-                    near_primitives::types::BlockReference::Finality(Default::default()),
-                )
-                .await
-            }
-            BlockId::Height(height) => height.process(connection_config).await,
-            BlockId::Hash(hash) => hash.process(connection_config).await,
+            BlockId::Final(acc) => acc.process(
+                connection_config,
+                near_primitives::types::BlockReference::Finality(Default::default()),
+            ),
+            BlockId::Height(height) => height.process(connection_config),
+            BlockId::Hash(hash) => hash.process(connection_config),
         }
     }
 }

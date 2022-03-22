@@ -93,33 +93,23 @@ impl From<CustomServerContext> for ViewContractMethodsCommandNetworkContext {
 }
 
 impl SelectServer {
-    pub async fn process(self) {
+    pub fn process(self) {
         match self {
-            SelectServer::Testnet(block) => {
-                block
-                    .block_id
-                    .process(crate::common::ConnectionConfig::Testnet)
-                    .await
-            }
-            SelectServer::Mainnet(block) => {
-                block
-                    .block_id
-                    .process(crate::common::ConnectionConfig::Mainnet)
-                    .await
-            }
-            SelectServer::Betanet(block) => {
-                block
-                    .block_id
-                    .process(crate::common::ConnectionConfig::Betanet)
-                    .await
-            }
+            SelectServer::Testnet(block) => block
+                .block_id
+                .process(crate::common::ConnectionConfig::Testnet),
+            SelectServer::Mainnet(block) => block
+                .block_id
+                .process(crate::common::ConnectionConfig::Mainnet),
+            SelectServer::Betanet(block) => block
+                .block_id
+                .process(crate::common::ConnectionConfig::Betanet),
             SelectServer::Custom(custom) => {
                 custom
                     .block_id
                     .process(crate::common::ConnectionConfig::Custom {
                         url: custom.url.inner,
                     })
-                    .await
             }
         }
     }
