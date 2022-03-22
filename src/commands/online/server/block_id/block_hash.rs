@@ -1,3 +1,5 @@
+use crate::common::CliResult;
+
 #[derive(Debug, Clone, interactive_clap::InteractiveClap)]
 #[interactive_clap(context = super::super::ViewContractMethodsCommandNetworkContext)]
 pub struct BlockIdHash {
@@ -7,12 +9,12 @@ pub struct BlockIdHash {
 }
 
 impl BlockIdHash {
-    pub fn process(self, connection_config: crate::common::ConnectionConfig) {
+    pub fn process(self, connection_config: crate::common::ConnectionConfig) -> CliResult {
         self.contract_id.process(
             connection_config,
             near_primitives::types::BlockReference::BlockId(near_primitives::types::BlockId::Hash(
                 self.block_id_hash.into(),
             )),
-        );
+        )
     }
 }

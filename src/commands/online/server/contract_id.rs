@@ -1,5 +1,7 @@
 use dialoguer::Input;
 
+use crate::common::CliResult;
+
 #[derive(Debug, Clone, interactive_clap::InteractiveClap)]
 #[interactive_clap(input_context = super::ViewContractMethodsCommandNetworkContext)]
 #[interactive_clap(output_context = ())]
@@ -32,12 +34,12 @@ impl CliAccountId {
         self,
         connection_config: crate::common::ConnectionConfig,
         block_reference: near_primitives::types::BlockReference,
-    ) {
+    ) -> CliResult {
         actix::System::new().block_on(crate::common::online_result(
             connection_config,
             block_reference,
             self.contract_id.into(),
-        ));
+        ))
     }
 
     pub fn input_contract_account_id(

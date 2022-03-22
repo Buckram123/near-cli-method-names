@@ -1,3 +1,5 @@
+use crate::common::CliResult;
+
 mod server;
 
 #[derive(Debug, Clone, interactive_clap::InteractiveClap)]
@@ -8,7 +10,7 @@ pub struct Online {
 }
 
 impl Online {
-    pub fn process(self) {
-        self.server.process();
+    pub fn process(self) -> CliResult {
+        self.server.process()
     }
 }

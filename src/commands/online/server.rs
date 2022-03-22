@@ -93,7 +93,7 @@ impl From<CustomServerContext> for ViewContractMethodsCommandNetworkContext {
 }
 
 impl SelectServer {
-    pub fn process(self) {
+    pub fn process(self) -> CliResult {
         match self {
             SelectServer::Testnet(block) => block
                 .block_id

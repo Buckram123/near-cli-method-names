@@ -26,7 +26,7 @@ pub enum BlockId {
 }
 
 impl BlockId {
-    pub fn process(self, connection_config: crate::common::ConnectionConfig) {
+    pub fn process(self, connection_config: crate::common::ConnectionConfig) -> CliResult {
         match self {
             BlockId::Final(acc) => acc.process(
                 connection_config,
