@@ -19,7 +19,7 @@ struct Args {
 pub enum Commands {
     #[strum_discriminants(strum(message = "From blockchain"))]
     /// Blockchain
-    Online(commands::Online),
+    Blockchain(commands::Blockchain),
     #[strum_discriminants(strum(message = "From wasm file"))]
     /// Wasm file of contract
     Wasm(commands::Wasm),
@@ -28,7 +28,7 @@ pub enum Commands {
 impl Commands {
     fn process(self) -> CliResult {
         match self {
-            Commands::Online(val) => val.process(),
+            Commands::Blockchain(val) => val.process(),
             Commands::Wasm(val) => val.process(),
         }
     }

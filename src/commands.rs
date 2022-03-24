@@ -1,5 +1,5 @@
-mod online;
+mod blockchain;
 mod wasm;
 
-pub use online::Online;
+pub use blockchain::Blockchain;
 pub use wasm::Wasm;

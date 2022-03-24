@@ -86,21 +86,21 @@ jobs:
         echo "cargo command is: ${{ env.CARGO }}"
         echo "target flag is: ${{ env.TARGET_FLAGS }}"
     
-    - name: Build near-cli and all crates
+    - name: Build near-cli-method-names and all crates
       run: ${{ env.CARGO }} build --verbose --all ${{ env.TARGET_FLAGS }} ${{ env.FEATURES_FLAGS }}
 
     - name: Run tests
       run: ${{ env.CARGO }} test --verbose --all ${{ env.TARGET_FLAGS }} ${{ env.FEATURES_FLAGS }}
     
-    - name: View contract code for 'volodymyr.testnet'
+    - name: View contract methods of aurora
       if: matrix.build != 'linux-aarch64-musl'
       run: |
-        ${{ env.TARGET_DIR }}/debug/near-cli view contract-code network testnet contract 'volodymyr.testnet' hash at-final-block
+        ${{ env.TARGET_DIR }}/debug/near-cli-method-names blockchain mainnet final aurora
     
-    - name: Transfer NEAR Tokens
-      if: matrix.build != 'linux-aarch64-musl'
-      run: |
-        ${{ env.TARGET_DIR }}/debug/near-cli transfer near network testnet sender volodymyr.testnet receiver 21.volodymyr.testnet amount 0.001NEAR sign-private-key --signer-public-key ed25519:Ebx7NiwqupsshnUsEZCzgm84SQqi8LZWJx7ermrr14JF --signer-private-key ed25519:2qM8v3nF4opam1frweMmD5h4PM3H6jtxfuAE77rpEuUx2rSGj64AzDf9xPKG76bgAs5L1oecV93etPy6xKjds2YB send
+    # - name: Transfer NEAR Tokens
+    #   if: matrix.build != 'linux-aarch64-musl'
+    #   run: |
+    #     ${{ env.TARGET_DIR }}/debug/near-cli transfer near network testnet sender volodymyr.testnet receiver 21.volodymyr.testnet amount 0.001NEAR sign-private-key --signer-public-key ed25519:Ebx7NiwqupsshnUsEZCzgm84SQqi8LZWJx7ermrr14JF --signer-private-key ed25519:2qM8v3nF4opam1frweMmD5h4PM3H6jtxfuAE77rpEuUx2rSGj64AzDf9xPKG76bgAs5L1oecV93etPy6xKjds2YB send
 
   rustfmt:
     name: rustfmt
