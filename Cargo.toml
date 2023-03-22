@@ -23,4 +23,4 @@ tokio = { version = "1.17.0", features = ["full"] }
 near-crypto = "0.11"
 near-primitives = "0.11"
 near-jsonrpc-client = "0.2"
-near-jsonrpc-primitives = "0.11"
+near-jsonrpc-primitives = "0.11" # my first toml comment :)
